@@ -1,73 +1,58 @@
-# React + TypeScript + Vite
+# ![Xylem Logo](public/icon.svg) Xylem
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+A highly responsive, serverless EVM blockchain explorer that operates entirely in the browser.
 
-## React Compiler
+> **Just as xylem tissue transports nutrients directly from a plant's roots to its leaves, this application connects directly to JSON-RPC and WebSocket (WSS) endpoints, bypassing centralized indexers entirely.**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Xylem provides developers with a minimalist, clean, and unfiltered way to stream live blocks, inspect transactions, and monitor network health in real-time. It is designed as a **stateless, backendless EVM explorer**, ensuring privacy and direct interaction with the blockchain.
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+-   **Stateless & Backendless**: Connects directly to RPC nodes; no intermediary servers or databases.
+-   **Real-time Updates**: Live streaming of blocks and transactions.
+-   **Block Explorer**: View detailed block information, including gas usage, miner details, and transaction lists.
+-   **Transaction Details**: Inspect transaction status, value, and gas fees.
+-   **Address Details**: Check wallet balances, transaction counts, and contract bytecode.
+-   **Multi-Network Support**: Easily switch between supported networks.
+-   **Global Search**: Quickly find blocks, transactions, or addresses.
+-   **Gas Tracker**: Monitor current gas prices.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Tech Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+-   **Frontend**: React, TypeScript, Vite
+-   **Styling**: Tailwind CSS
+-   **State Management**: Zustand
+-   **Blockchain Interaction**: Viem, Wagmi
+-   **Routing**: React Router
+-   **Icons**: Lucide React
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Getting Started
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+1.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+2.  **Start the development server**:
+    ```bash
+    npm run dev
+    ```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+3.  **Build for production**:
+    ```bash
+    npm run build
+    ```
+
+## Project Structure
+
+-   `src/components`: Reusable UI components (BlockList, GasWidget, etc.)
+-   `src/pages`: Application pages (Dashboard, BlockDetails, etc.)
+-   `src/store`: Global state management (Zustand stores)
+-   `src/hooks`: Custom React hooks for data fetching
+-   `src/config`: Configuration files (Wagmi, Chain settings)
+
+## License
+
+MIT
