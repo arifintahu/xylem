@@ -1,29 +1,37 @@
 import { http, createConfig } from 'wagmi'
-import { mainnet, base } from 'wagmi/chains'
 import { injected } from 'wagmi/connectors'
 import { defineChain } from 'viem'
-import { chainConfig } from './chain'
+import { getNetworks } from './network'
+import type { Chain } from 'viem'
 
-export const customChain = defineChain({
-  id: chainConfig.chainId,
-  name: chainConfig.name,
-  nativeCurrency: chainConfig.nativeCurrency,
-  rpcUrls: {
-    default: { http: [chainConfig.rpcUrl] },
-  },
-  blockExplorers: {
-    default: { name: 'Explorer', url: chainConfig.blockExplorerUrl },
-  },
-})
+export const getWagmiChains = (): readonly [Chain, ...Chain[]] => {
+  const networks = getNetworks()
+  const wagmiChains: Chain[] = []
+  
+  for (const network of networks) {
+    const wagmiChain = defineChain({
+      id: network.chainId,
+      name: network.name,
+      nativeCurrency: network.currency,
+      rpcUrls: {
+        default: { http: [network.rpcUrl] },
+      },
+      blockExplorers: {
+        default: { name: 'Explorer', url: network.blockExplorerBaseUrl || '' },
+      },
+    })
+    wagmiChains.push(wagmiChain)
+  }
+  return wagmiChains as unknown as readonly [Chain, ...Chain[]]
+}
 
 export const config = createConfig({
-  chains: [mainnet, base, customChain],
+  chains: getWagmiChains(),
   connectors: [
     injected(),
   ],
-  transports: {
-    [mainnet.id]: http(),
-    [base.id]: http(),
-    [customChain.id]: http(),
-  },
+  transports: getWagmiChains().reduce((transports, chain) => ({
+    ...transports,
+    [chain.id]: http(),
+  }), {}),
 })

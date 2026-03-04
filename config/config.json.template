@@ -1,0 +1,28 @@
+{
+    "networks": [
+        {
+            "id": 1,
+            "name": "Ethereum",
+            "rpcUrl": "https://eth.merkle.io",
+            "wsUrl": "wss://eth.merkle.io",
+            "currency": {
+                "name": "Ether",
+                "symbol": "ETH",
+                "decimals": 18
+            },
+            "blockExplorerBaseUrl": "https://etherscan.io"
+        },
+        {
+            "id": 8453,
+            "name": "Base",
+            "rpcUrl": "https://mainnet.base.org",
+            "wsUrl": "wss://base-rpc.publicnode.com",
+            "currency": {
+                "name": "Ether",
+                "symbol": "ETH",
+                "decimals": 18
+            },
+            "blockExplorerBaseUrl": "https://basescan.org"
+        }
+    ]
+}
