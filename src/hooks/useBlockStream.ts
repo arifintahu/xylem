@@ -59,10 +59,14 @@ export const useBlockStream = () => {
             gasPricePromise
         ]);
 
-        // Add blocks
-        for (const block of blocks) {
-           addBlock(block as unknown as Block); // Viem types can be tricky with defineChain
+        // Add blocks - sort descending first (newest first)
+        const sortedBlocks = blocks.sort((a, b) => Number(b.number) - Number(a.number));
+        
+        for (const block of sortedBlocks) {
+           addBlock(block as unknown as Block); 
            if (block.transactions.length > 0) {
+             // For each block, add transactions. 
+             // Since we process newest block first, its transactions will be added first.
              addTransactions((block.transactions as unknown as Transaction[]).slice(0, 20));
            }
         }

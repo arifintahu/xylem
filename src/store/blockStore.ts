@@ -39,6 +39,7 @@ export const useBlockStore = create<BlockState>((set) => ({
     set((state) => {
       // Simple deduplication based on hash, though strictly incoming blocks shouldn't overlap much if sequential
       // But re-orgs or initial fetch might overlap
+      // New transactions should be at the top
       const newTxs = [...txs, ...state.transactions].slice(0, 100); 
       return { transactions: newTxs };
     }),
