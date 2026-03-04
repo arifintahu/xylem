@@ -2,10 +2,13 @@ import { useParams, Link } from 'react-router-dom';
 import { useBlockDetails } from '../hooks/useBlockDetails';
 import { formatEther, formatGwei } from 'viem';
 import { ArrowLeft, Box, Clock, Hash, Layers, Database, User, Activity } from 'lucide-react';
+import { useNetworkStore } from '../store/networkStore';
 
 export const BlockDetails = () => {
   const { blockNumber } = useParams();
   const { data: block, isLoading, error } = useBlockDetails(blockNumber);
+  const { getActiveNetwork } = useNetworkStore();
+  const activeNetwork = getActiveNetwork();
 
   if (isLoading) return <div className="p-8 flex justify-center"><div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full"></div></div>;
   if (error) return <div className="p-8 text-red-500">Error loading block details</div>;
@@ -88,7 +91,7 @@ export const BlockDetails = () => {
                      )}
                    </td>
                    <td className="px-6 py-4 font-mono text-gray-900 text-right">
-                     {parseFloat(formatEther(tx.value)).toFixed(5)} ETH
+                     {parseFloat(formatEther(tx.value)).toFixed(5)} {activeNetwork.currency.symbol}
                    </td>
                  </tr>
                ))}
@@ -109,9 +112,9 @@ export const BlockDetails = () => {
 
 const DetailItem = ({ icon, label, value, link }: any) => (
   <div className="flex flex-col space-y-1">
-    <div className="flex items-center space-x-2 text-gray-500 text-xs font-medium uppercase tracking-wider">
-      {icon && <span className="w-4 h-4">{icon}</span>}
-      <span>{label}</span>
+    <div className="flex items-center space-x-2 text-gray-500 text-xs font-medium uppercase tracking-wider h-5">
+      {icon && <div className="flex items-center justify-center w-4 h-4">{icon}</div>}
+      <span className="leading-none pt-0.5">{label}</span>
     </div>
     <div className="font-mono text-sm text-gray-900 break-all bg-gray-50 p-2 rounded border border-gray-100">
       {link ? (

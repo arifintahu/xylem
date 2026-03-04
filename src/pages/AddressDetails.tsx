@@ -3,11 +3,14 @@ import { useParams } from 'react-router-dom';
 import { useAddressDetails } from '../hooks/useAddressDetails';
 import { formatEther } from 'viem';
 import { User, Code } from 'lucide-react';
+import { useNetworkStore } from '../store/networkStore';
 
 export const AddressDetails = () => {
   const { address } = useParams();
   const { data, isLoading, error } = useAddressDetails(address);
   const [activeTab, setActiveTab] = useState('overview');
+  const { getActiveNetwork } = useNetworkStore();
+  const activeNetwork = getActiveNetwork();
 
   if (isLoading) return <div className="p-8 flex justify-center"><div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full"></div></div>;
   if (error) return <div className="p-8 text-red-500">Error loading address details</div>;
@@ -31,7 +34,7 @@ export const AddressDetails = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
            <div className="p-6 bg-gray-50 rounded-xl border border-gray-100 hover:border-primary/20 transition-colors group">
              <span className="text-gray-500 text-xs font-bold uppercase tracking-wider group-hover:text-primary transition-colors">Balance</span>
-             <div className="text-3xl font-bold text-gray-900 mt-2 tracking-tight">{parseFloat(formatEther(data.balance)).toFixed(6)} <span className="text-lg text-gray-500 font-normal">ETH</span></div>
+             <div className="text-3xl font-bold text-gray-900 mt-2 tracking-tight">{parseFloat(formatEther(data.balance)).toFixed(6)} <span className="text-lg text-gray-500 font-normal">{activeNetwork.currency.symbol}</span></div>
            </div>
            <div className="p-6 bg-gray-50 rounded-xl border border-gray-100 hover:border-primary/20 transition-colors group">
              <span className="text-gray-500 text-xs font-bold uppercase tracking-wider group-hover:text-primary transition-colors">Transaction Count</span>

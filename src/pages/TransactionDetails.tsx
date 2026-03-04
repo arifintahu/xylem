@@ -2,10 +2,14 @@ import { useParams, Link } from 'react-router-dom';
 import { useTransactionDetails } from '../hooks/useTransactionDetails';
 import { formatEther, formatGwei } from 'viem';
 import { ArrowLeft, CheckCircle, XCircle, Code, Terminal, FileText } from 'lucide-react';
+import { useNetworkStore } from '../store/networkStore';
 
 export const TransactionDetails = () => {
   const { txHash } = useParams();
   const { data: tx, isLoading, error } = useTransactionDetails(txHash);
+
+  const { getActiveNetwork } = useNetworkStore();
+  const activeNetwork = getActiveNetwork();
 
   if (isLoading) return <div className="p-8 flex justify-center"><div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full"></div></div>;
   if (error) return <div className="p-8 text-red-500">Error loading transaction details</div>;
@@ -38,7 +42,7 @@ export const TransactionDetails = () => {
              <DetailItem label="Timestamp" value="N/A (Need Block)" /> {/* Typically need to fetch block for timestamp, or just omit */}
              <DetailItem label="From" value={tx.from} link={`/address/${tx.from}`} />
              <DetailItem label="To" value={tx.to} link={`/address/${tx.to}`} />
-             <DetailItem label="Value" value={`${formatEther(tx.value)} ETH`} />
+             <DetailItem label="Value" value={`${formatEther(tx.value)} ${activeNetwork.currency.symbol}`} />
              <DetailItem label="Gas Price" value={`${formatGwei(tx.effectiveGasPrice)} Gwei`} />
              <DetailItem label="Gas Used" value={`${tx.gasUsed.toString()} (${((Number(tx.gasUsed) / Number(tx.gas)) * 100).toFixed(2)}%)`} />
              <DetailItem label="Nonce" value={tx.nonce.toString()} />

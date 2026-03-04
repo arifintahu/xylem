@@ -1,9 +1,12 @@
 import { useBlockStore } from '../store/blockStore';
 import { formatEther } from 'viem';
 import { Link } from 'react-router-dom';
+import { useNetworkStore } from '../store/networkStore';
 
 export const TransactionTicker = () => {
   const { transactions } = useBlockStore();
+  const { getActiveNetwork } = useNetworkStore();
+  const activeNetwork = getActiveNetwork();
 
   return (
     <div className="divide-y divide-gray-100 max-h-[600px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
@@ -24,7 +27,7 @@ export const TransactionTicker = () => {
              </div>
              <div className="flex flex-col items-end">
                <span className="text-xs font-mono font-bold text-gray-900 bg-gray-100 px-2 py-0.5 rounded-full">
-                 {parseFloat(formatEther(tx.value)).toFixed(4)} ETH
+                 {parseFloat(formatEther(tx.value)).toFixed(4)} {activeNetwork.currency.symbol}
                </span>
              </div>
           </div>
