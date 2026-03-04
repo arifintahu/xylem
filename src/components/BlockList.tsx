@@ -5,7 +5,7 @@ export const BlockList = () => {
   const { blocks } = useBlockStore();
 
   return (
-    <div className="divide-y divide-gray-100 max-h-[600px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
+    <div className="divide-y divide-gray-100 max-h-[600px] overflow-y-auto">
       {blocks.map((block) => (
         <div key={block.hash} className="p-4 hover:bg-gray-50 transition-colors animate-in fade-in slide-in-from-top-2 duration-300">
           <div className="flex justify-between items-start">

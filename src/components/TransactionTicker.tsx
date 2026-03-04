@@ -9,7 +9,7 @@ export const TransactionTicker = () => {
   const activeNetwork = getActiveNetwork();
 
   return (
-    <div className="divide-y divide-gray-100 max-h-[600px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
+    <div className="divide-y divide-gray-100 max-h-[600px] overflow-y-auto">
       {transactions.map((tx) => (
         <div key={tx.hash} className="p-4 hover:bg-gray-50 transition-colors animate-in fade-in slide-in-from-right-2 duration-300 group">
           <div className="flex justify-between items-center">

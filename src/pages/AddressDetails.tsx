@@ -58,7 +58,7 @@ export const AddressDetails = () => {
              {activeTab === 'overview' && (
                <div className="relative">
                  <div className="absolute top-2 right-2 text-xs text-gray-500 font-mono">Hex</div>
-                 <div className="bg-gray-900 text-gray-300 p-4 rounded-lg font-mono text-xs break-all max-h-96 overflow-y-auto custom-scrollbar leading-relaxed">
+                 <div className="bg-gray-900 text-gray-300 p-4 rounded-lg font-mono text-xs break-all max-h-96 overflow-y-auto leading-relaxed">
                    {data.code}
                  </div>
                </div>
