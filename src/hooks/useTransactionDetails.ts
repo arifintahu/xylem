@@ -18,8 +18,14 @@ export const useTransactionDetails = (hash: string | undefined) => {
       const receiptPromise = client.getTransactionReceipt({ hash: hash as `0x${string}` });
       
       const [tx, receipt] = await Promise.all([txPromise, receiptPromise]);
+
+      let timestamp = null;
+      if (tx.blockNumber) {
+        const block = await client.getBlock({ blockNumber: tx.blockNumber });
+        timestamp = block.timestamp;
+      }
       
-      return { ...tx, ...receipt }; // Merge tx and receipt
+      return { ...tx, ...receipt, timestamp }; // Merge tx and receipt
     },
     enabled: !!hash,
   });

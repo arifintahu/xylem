@@ -3,6 +3,7 @@ import { useTransactionDetails } from '../hooks/useTransactionDetails';
 import { formatEther, formatGwei } from 'viem';
 import { ArrowLeft, CheckCircle, XCircle, Code, Terminal, FileText } from 'lucide-react';
 import { useNetworkStore } from '../store/networkStore';
+import { CopyToClipboard } from '../components/CopyToClipboard';
 
 export const TransactionDetails = () => {
   const { txHash } = useParams();
@@ -34,14 +35,20 @@ export const TransactionDetails = () => {
                 {tx.status === 'success' ? <CheckCircle className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
                 <span className="capitalize">{tx.status}</span>
               </span>
-              <span className="text-gray-400 dark:text-gray-500 text-sm font-mono">{tx.transactionHash}</span>
+              <div className="flex items-center gap-2">
+                <span className="text-gray-400 dark:text-gray-500 text-sm font-mono">{tx.transactionHash}</span>
+                <CopyToClipboard text={tx.transactionHash} />
+              </div>
            </div>
 
            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
              <DetailItem label="Block" value={tx.blockNumber.toString()} link={`/block/${tx.blockNumber}`} />
-             <DetailItem label="Timestamp" value="N/A (Need Block)" /> {/* Typically need to fetch block for timestamp, or just omit */}
-             <DetailItem label="From" value={tx.from} link={`/address/${tx.from}`} />
-             <DetailItem label="To" value={tx.to} link={`/address/${tx.to}`} />
+             <DetailItem 
+               label="Timestamp" 
+               value={tx.timestamp ? new Date(Number(tx.timestamp) * 1000).toLocaleString() : 'Pending...'} 
+             />
+             <DetailItem label="From" value={tx.from} link={`/address/${tx.from}`} copyValue={tx.from} />
+             <DetailItem label="To" value={tx.to} link={`/address/${tx.to}`} copyValue={tx.to} />
              <DetailItem label="Value" value={`${formatEther(tx.value)} ${activeNetwork.currency.symbol}`} />
              <DetailItem label="Gas Price" value={`${formatGwei(tx.effectiveGasPrice)} Gwei`} />
              <DetailItem label="Gas Used" value={`${tx.gasUsed.toString()} (${((Number(tx.gasUsed) / Number(tx.gas)) * 100).toFixed(2)}%)`} />
@@ -98,15 +105,18 @@ export const TransactionDetails = () => {
   );
 };
 
-const DetailItem = ({ label, value, link }: any) => (
+const DetailItem = ({ label, value, link, copyValue }: any) => (
   <div className="flex flex-col space-y-1">
     <span className="text-gray-500 dark:text-gray-400 text-xs font-medium uppercase tracking-wider transition-colors">{label}</span>
-    <div className="font-mono text-sm text-gray-900 dark:text-gray-100 break-all bg-gray-50 dark:bg-gray-800 p-2 rounded border border-gray-100 dark:border-gray-700 transition-colors">
-      {link ? (
-        <Link to={link} className="text-primary hover:underline">{value}</Link>
-      ) : (
-        value
-      )}
+    <div className="flex items-center gap-2 font-mono text-sm text-gray-900 dark:text-gray-100 break-all bg-gray-50 dark:bg-gray-800 p-2 rounded border border-gray-100 dark:border-gray-700 transition-colors">
+      <div className="flex-1 truncate">
+        {link ? (
+          <Link to={link} className="text-primary hover:underline">{value}</Link>
+        ) : (
+          value
+        )}
+      </div>
+      {copyValue && <CopyToClipboard text={copyValue} />}
     </div>
   </div>
 );

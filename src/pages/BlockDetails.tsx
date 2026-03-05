@@ -3,6 +3,7 @@ import { useBlockDetails } from '../hooks/useBlockDetails';
 import { formatEther, formatGwei } from 'viem';
 import { ArrowLeft, Box, Clock, Hash, Layers, Database, User, Activity } from 'lucide-react';
 import { useNetworkStore } from '../store/networkStore';
+import { CopyToClipboard } from '../components/CopyToClipboard';
 
 export const BlockDetails = () => {
   const { blockNumber } = useParams();
@@ -28,10 +29,10 @@ export const BlockDetails = () => {
 
       <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden transition-colors">
         <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <DetailItem icon={<Hash />} label="Block Hash" value={block.hash} />
+          <DetailItem icon={<Hash />} label="Block Hash" value={block.hash} copyValue={block.hash} />
           <DetailItem icon={<Clock />} label="Timestamp" value={new Date(Number(block.timestamp) * 1000).toLocaleString()} />
-          <DetailItem icon={<Layers />} label="Parent Hash" value={block.parentHash} />
-          <DetailItem icon={<User />} label="Miner / Fee Recipient" value={block.miner} link={`/address/${block.miner}`} />
+          <DetailItem icon={<Layers />} label="Parent Hash" value={block.parentHash} copyValue={block.parentHash} />
+          <DetailItem icon={<User />} label="Miner / Fee Recipient" value={block.miner} link={`/address/${block.miner}`} copyValue={block.miner} />
           
           <DetailItem 
             icon={<Activity />} 
@@ -110,18 +111,21 @@ export const BlockDetails = () => {
   );
 };
 
-const DetailItem = ({ icon, label, value, link }: any) => (
+const DetailItem = ({ icon, label, value, link, copyValue }: any) => (
   <div className="flex flex-col space-y-1">
     <div className="flex items-center space-x-2 text-gray-500 dark:text-gray-400 text-xs font-medium uppercase tracking-wider h-5 transition-colors">
       {icon && <div className="flex items-center justify-center w-4 h-4">{icon}</div>}
       <span className="leading-none pt-0.5">{label}</span>
     </div>
-    <div className="font-mono text-sm text-gray-900 dark:text-gray-100 break-all bg-gray-50 dark:bg-gray-800 p-2 rounded border border-gray-100 dark:border-gray-700 transition-colors">
-      {link ? (
-        <Link to={link} className="text-primary hover:underline">{value}</Link>
-      ) : (
-        value
-      )}
+    <div className="flex items-center gap-2 font-mono text-sm text-gray-900 dark:text-gray-100 break-all bg-gray-50 dark:bg-gray-800 p-2 rounded border border-gray-100 dark:border-gray-700 transition-colors">
+      <div className="flex-1 truncate">
+        {link ? (
+          <Link to={link} className="text-primary hover:underline">{value}</Link>
+        ) : (
+          value
+        )}
+      </div>
+      {copyValue && <CopyToClipboard text={copyValue} />}
     </div>
   </div>
 );

@@ -4,6 +4,7 @@ import { useAddressDetails } from '../hooks/useAddressDetails';
 import { formatEther } from 'viem';
 import { User, Code } from 'lucide-react';
 import { useNetworkStore } from '../store/networkStore';
+import { CopyToClipboard } from '../components/CopyToClipboard';
 
 export const AddressDetails = () => {
   const { address } = useParams();
@@ -23,7 +24,10 @@ export const AddressDetails = () => {
            {data.isContract ? <Code className="w-6 h-6 text-primary" /> : <User className="w-6 h-6 text-gray-500 dark:text-gray-400" />}
         </div>
         <div className="flex-1 min-w-0">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white break-all font-mono tracking-tight">{data.address}</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white break-all font-mono tracking-tight">{data.address}</h1>
+            <CopyToClipboard text={data.address} />
+          </div>
           <span className="text-sm text-gray-500 dark:text-gray-400 font-medium bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-full inline-block mt-1 transition-colors">
             {data.isContract ? 'Contract Account' : 'Externally Owned Account'}
           </span>
