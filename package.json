@@ -4,6 +4,15 @@
   "version": "1.0.0",
   "description": "A stateless, backendless EVM blockchain explorer that connects directly to RPC nodes.",
   "type": "module",
+  "author": "arifintahu",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arifintahu/xylem.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
