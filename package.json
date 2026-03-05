@@ -1,7 +1,7 @@
 {
-  "name": "xylem-explorer",
+  "name": "xylem",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A stateless, backendless EVM blockchain explorer that connects directly to RPC nodes.",
   "type": "module",
   "scripts": {
