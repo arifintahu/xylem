@@ -11,7 +11,7 @@ import { useNetworkStore } from '../store/networkStore';
 
 export const Header = () => {
   const { isConnected } = useBlockStore();
-  const { getActiveNetwork } = useNetworkStore();
+  const { getActiveNetwork, networks } = useNetworkStore();
   const activeNetwork = getActiveNetwork();
   
   const { address, isConnected: isWalletConnected } = useAccount();
@@ -49,9 +49,14 @@ export const Header = () => {
         </div>
         
         <div className="flex items-center space-x-3 md:space-x-4 flex-shrink-0">
-           <GasWidget />
+          <GasWidget />
+          {networks.length > 1 && (
+             <>
+               <div className="h-6 w-px bg-gray-200 dark:bg-gray-700 hidden md:block"></div>
+               <NetworkSelector />
+             </>
+           )}
            <div className="h-6 w-px bg-gray-200 dark:bg-gray-700 hidden md:block"></div>
-           <NetworkSelector />
            <ThemeToggle />
            
            {isWalletConnected ? (
