@@ -1,6 +1,16 @@
-# ![Xylem Logo](public/icon.svg) Xylem
+# Xylem
+
+<p align="center">
+  <img src="public/icon.svg" alt="Xylem icon" width="128" height="128">
+</p>
+<p align="center">
+  <a href="https://github.com/arifintahu/xylem/stargazers"><img src="https://img.shields.io/github/stars/arifintahu/xylem" alt="GitHub stars"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
+</p>
 
 A highly responsive, serverless EVM blockchain explorer that operates entirely in the browser.
+
+![Xylem App Screenshot](demo.jpeg)
 
 > **Just as xylem tissue transports nutrients directly from a plant's roots to its leaves, this application connects directly to JSON-RPC and WebSocket (WSS) endpoints, bypassing centralized indexers entirely.**
 
