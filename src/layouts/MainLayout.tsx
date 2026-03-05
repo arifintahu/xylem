@@ -15,7 +15,7 @@ export const MainLayout = () => {
   }, [activeNetwork.name]);
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans text-gray-900 selection:bg-green-100 selection:text-green-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 font-sans text-gray-900 dark:text-gray-100 selection:bg-green-100 dark:selection:bg-green-900 selection:text-green-900 dark:selection:text-green-100 transition-colors duration-200">
       <Header />
       <main className="container mx-auto px-4 py-8 max-w-7xl">
         <Outlet />

@@ -73,18 +73,18 @@ export const GlobalSearch = () => {
         {isSearching ? (
           <Loader2 className="w-4 h-4 text-primary animate-spin" />
         ) : (
-          <Search className="w-4 h-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+          <Search className="w-4 h-4 text-gray-400 dark:text-gray-500 group-focus-within:text-primary transition-colors" />
         )}
       </div>
       <input
         type="text"
-        className="block w-full p-2 pl-10 pr-4 text-sm text-gray-900 border border-gray-200 rounded-lg bg-gray-50 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm outline-none placeholder:text-gray-400"
+        className="block w-full p-2 pl-10 pr-4 text-sm text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800 focus:ring-2 focus:ring-primary/20 dark:focus:ring-primary/30 focus:border-primary transition-all shadow-sm outline-none placeholder:text-gray-400 dark:placeholder:text-gray-500"
         placeholder="Search by Tx Hash, Block, or Address"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
       <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-        <span className="text-xs text-gray-400 border border-gray-200 rounded px-1.5 py-0.5 hidden group-focus-within:block">Enter</span>
+        <span className="text-xs text-gray-400 dark:text-gray-500 border border-gray-200 dark:border-gray-700 rounded px-1.5 py-0.5 hidden group-focus-within:block">Enter</span>
       </div>
     </form>
   );

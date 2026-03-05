@@ -18,23 +18,23 @@ export const TransactionDetails = () => {
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex items-center space-x-4 mb-6">
-        <Link to="/" className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-          <ArrowLeft className="w-5 h-5 text-gray-500" />
+        <Link to="/" className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
+          <ArrowLeft className="w-5 h-5 text-gray-500 dark:text-gray-400" />
         </Link>
-        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
           <FileText className="w-6 h-6 text-primary" />
           Transaction Details
         </h1>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden transition-colors">
         <div className="p-6 grid grid-cols-1 gap-6">
            <div className="flex items-center space-x-2">
-              <span className={`flex items-center space-x-1 px-3 py-1 rounded-full text-sm font-medium ${tx.status === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+              <span className={`flex items-center space-x-1 px-3 py-1 rounded-full text-sm font-medium ${tx.status === 'success' ? 'bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400' : 'bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400'}`}>
                 {tx.status === 'success' ? <CheckCircle className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
                 <span className="capitalize">{tx.status}</span>
               </span>
-              <span className="text-gray-400 text-sm font-mono">{tx.transactionHash}</span>
+              <span className="text-gray-400 dark:text-gray-500 text-sm font-mono">{tx.transactionHash}</span>
            </div>
 
            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -51,42 +51,42 @@ export const TransactionDetails = () => {
       </div>
 
       {/* Input Data */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="p-4 border-b border-gray-100 bg-gray-50/50 flex items-center gap-2">
-          <Code className="w-4 h-4 text-gray-500" />
-          <h2 className="text-lg font-bold text-gray-800">Input Data</h2>
+      <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden transition-colors">
+        <div className="p-4 border-b border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/50 flex items-center gap-2 transition-colors">
+          <Code className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+          <h2 className="text-lg font-bold text-gray-800 dark:text-gray-100">Input Data</h2>
         </div>
-        <div className="p-4 bg-gray-50 font-mono text-xs text-gray-600 break-all max-h-60 overflow-y-auto">
+        <div className="p-4 bg-gray-50 dark:bg-gray-800 font-mono text-xs text-gray-600 dark:text-gray-300 break-all max-h-60 overflow-y-auto transition-colors">
           {tx.input}
         </div>
       </div>
 
       {/* Logs */}
       {tx.logs && tx.logs.length > 0 && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-          <div className="p-4 border-b border-gray-100 bg-gray-50/50 flex items-center gap-2">
-            <Terminal className="w-4 h-4 text-gray-500" />
-            <h2 className="text-lg font-bold text-gray-800">Event Logs ({tx.logs.length})</h2>
+        <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden transition-colors">
+          <div className="p-4 border-b border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/50 flex items-center gap-2 transition-colors">
+            <Terminal className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+            <h2 className="text-lg font-bold text-gray-800 dark:text-gray-100">Event Logs ({tx.logs.length})</h2>
           </div>
-          <div className="divide-y divide-gray-100">
+          <div className="divide-y divide-gray-100 dark:divide-gray-800">
             {tx.logs.map((log: any, index: number) => (
-              <div key={index} className="p-4 hover:bg-gray-50 transition-colors">
+              <div key={index} className="p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
                 <div className="flex items-center space-x-2 mb-2">
-                  <span className="bg-gray-200 text-gray-600 px-2 py-0.5 rounded text-xs font-bold">{index}</span>
+                  <span className="bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-2 py-0.5 rounded text-xs font-bold">{index}</span>
                   <span className="text-sm font-mono text-primary">{log.address}</span>
                 </div>
                 <div className="space-y-2">
                   <div className="flex space-x-2">
-                    <span className="text-xs text-gray-400 w-12 uppercase">Topics</span>
+                    <span className="text-xs text-gray-400 dark:text-gray-500 w-12 uppercase">Topics</span>
                     <div className="flex flex-col space-y-1">
                       {log.topics.map((topic: string, i: number) => (
-                        <span key={i} className="text-xs font-mono text-gray-600 bg-gray-100 px-1 rounded">{topic}</span>
+                        <span key={i} className="text-xs font-mono text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 px-1 rounded">{topic}</span>
                       ))}
                     </div>
                   </div>
                   <div className="flex space-x-2">
-                    <span className="text-xs text-gray-400 w-12 uppercase">Data</span>
-                    <span className="text-xs font-mono text-gray-600 bg-gray-100 px-1 rounded break-all">{log.data}</span>
+                    <span className="text-xs text-gray-400 dark:text-gray-500 w-12 uppercase">Data</span>
+                    <span className="text-xs font-mono text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 px-1 rounded break-all">{log.data}</span>
                   </div>
                 </div>
               </div>
@@ -100,8 +100,8 @@ export const TransactionDetails = () => {
 
 const DetailItem = ({ label, value, link }: any) => (
   <div className="flex flex-col space-y-1">
-    <span className="text-gray-500 text-xs font-medium uppercase tracking-wider">{label}</span>
-    <div className="font-mono text-sm text-gray-900 break-all bg-gray-50 p-2 rounded border border-gray-100">
+    <span className="text-gray-500 dark:text-gray-400 text-xs font-medium uppercase tracking-wider transition-colors">{label}</span>
+    <div className="font-mono text-sm text-gray-900 dark:text-gray-100 break-all bg-gray-50 dark:bg-gray-800 p-2 rounded border border-gray-100 dark:border-gray-700 transition-colors">
       {link ? (
         <Link to={link} className="text-primary hover:underline">{value}</Link>
       ) : (
