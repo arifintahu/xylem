@@ -12,15 +12,7 @@ interface ThemeState {
 export const useThemeStore = create<ThemeState>()(
   persist(
     (set) => ({
-      theme: (function() {
-        if (typeof window !== 'undefined') {
-          // Check system preference if no stored preference
-          if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            return 'dark';
-          }
-        }
-        return 'light';
-      })(),
+      theme: 'light',
       toggleTheme: () => set((state) => {
         const newTheme = state.theme === 'light' ? 'dark' : 'light';
         updateHtmlClass(newTheme);
