@@ -1,4 +1,5 @@
-import config from '../../config/config.json'
+const configGlob = import.meta.glob('../../config/config.json', { eager: true });
+const config = (configGlob['../../config/config.json'] as any)?.default;
 
 const chainName = import.meta.env.VITE_CHAIN_NAME
 
@@ -40,7 +41,7 @@ export const getNetworks = (): Network[] => {
     return networks
   }
 
-  config.networks.forEach((network) => {
+  config.networks.forEach((network: any) => {
     const networkConfig: Network = {
       id: network.name.toLowerCase().replace(/\s+/g, '-'),
       chainId: network.id,
