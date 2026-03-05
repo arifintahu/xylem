@@ -15,14 +15,14 @@ export const TransactionTicker = () => {
           <div className="flex justify-between items-center">
              <div className="flex flex-col max-w-[70%]">
                <Link to={`/tx/${tx.hash}`} className="text-sm font-mono text-primary truncate hover:text-primary-dark transition-colors">
-                 {tx.hash.slice(0, 14)}...
+                 {tx.hash.slice(0, 20)}...
                </Link>
                <div className="text-xs text-gray-500 dark:text-gray-400 mt-1 flex items-center space-x-1 truncate font-mono">
                  <span className="text-gray-400 dark:text-gray-500">From</span>
-                 <span className="text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded px-1 transition-colors cursor-pointer">{tx.from.slice(0, 6)}...</span>
+                 <span className="text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded px-1 transition-colors cursor-pointer">{tx.from.slice(0, 10)}...</span>
                  <span className="text-gray-300 dark:text-gray-600">→</span>
                  <span className="text-gray-400 dark:text-gray-500">To</span>
-                 <span className="text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded px-1 transition-colors cursor-pointer">{tx.to ? tx.to.slice(0, 6) + '...' : 'Contract Creation'}</span>
+                 <span className="text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded px-1 transition-colors cursor-pointer">{tx.to ? tx.to.slice(0, 10) + '...' : 'Contract Creation'}</span>
                </div>
              </div>
              <div className="flex flex-col items-end">
