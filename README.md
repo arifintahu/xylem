@@ -19,7 +19,13 @@ Xylem provides developers with a minimalist, clean, and unfiltered way to stream
 
 ## Configuration
 
-Xylem uses environment variables to configure the blockchain connection. Create a `.env` file in the root directory (copy from `.env.example`):
+Xylem can be configured in two ways:
+1.  **Environment Variables**: For single-chain deployments or quick setups.
+2.  **`config/config.json`**: For multi-chain support and advanced configuration.
+
+### 1. Environment Variables (Single Chain)
+
+Create a `.env` file in the root directory (copy from `.env.example`):
 
 | Variable | Description | Default (Sepolia) |
 |----------|-------------|-------------------|
@@ -32,24 +38,79 @@ Xylem uses environment variables to configure the blockchain connection. Create 
 
 **Note**: Since Xylem is a client-side application, these variables are embedded into the build. You must provide them at build time.
 
+### 2. `config.json` (Multi-Chain)
+
+To support multiple networks, create a `config/config.json` file. You can use `config/config.json.template` as a starting point.
+
+```json
+{
+    "networks": [
+        {
+            "id": 1,
+            "name": "Ethereum",
+            "rpcUrl": "https://eth.merkle.io",
+            "wsUrl": "wss://eth.merkle.io",
+            "currency": {
+                "name": "Ether",
+                "symbol": "ETH",
+                "decimals": 18
+            },
+            "blockExplorerBaseUrl": "https://etherscan.io"
+        },
+        {
+            "id": 8453,
+            "name": "Base",
+            "rpcUrl": "https://mainnet.base.org",
+            "wsUrl": "wss://base-rpc.publicnode.com",
+            "currency": {
+                "name": "Ether",
+                "symbol": "ETH",
+                "decimals": 18
+            },
+            "blockExplorerBaseUrl": "https://basescan.org"
+        }
+    ]
+}
+```
+
+If `config.json` is present, it will be loaded alongside any environment variables. If both are present, the environment variables will be added as an additional network (if valid).
+
 ## Deployment
 
 <details>
 <summary><strong>Docker</strong></summary>
 
-Build and run the application in a container. You can pass environment variables as build arguments.
+You can deploy using Docker with either environment variables or by mounting a `config.json` file.
+
+**Option 1: Using Environment Variables (Single Chain)**
 
 ```bash
-# Build the Docker image with custom RPC (example: Mainnet)
+# Build the Docker image
 docker build \
   --build-arg VITE_CHAIN_ID=1 \
   --build-arg VITE_CHAIN_NAME="Ethereum Mainnet" \
-  --build-arg VITE_CHAIN_RPC_URL="https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY" \
-  --build-arg VITE_CHAIN_WS_URL="wss://eth-mainnet.g.alchemy.com/v2/YOUR_KEY" \
+  --build-arg VITE_CHAIN_RPC_URL="https://eth.merkle.io" \
+  --build-arg VITE_CHAIN_WS_URL="wss://eth.merkle.io" \
   --build-arg VITE_CHAIN_SYMBOL="ETH" \
   -t xylem-explorer .
 
 # Run the container
+docker run -p 8080:80 xylem-explorer
+```
+
+**Option 2: Using `config.json` (Multi-Chain)**
+
+1.  Create your `config/config.json` file.
+2.  Build the image (no build args needed for config.json support, but the file must be present at build time).
+
+```bash
+# Copy config.json to config/config.json before building
+cp config/config.json.template config/config.json
+
+# Build
+docker build -t xylem-explorer .
+
+# Run
 docker run -p 8080:80 xylem-explorer
 ```
 
@@ -60,7 +121,7 @@ The application will be available at `http://localhost:8080`.
 <details>
 <summary><strong>Vercel</strong></summary>
 
-Xylem is optimized for Vercel deployment.
+Xylem is optimized for Vercel deployment. **Vercel deployments primarily support Environment Variables configuration.**
 
 1.  **Install Vercel CLI**:
     ```bash
@@ -80,17 +141,34 @@ Alternatively, push to GitHub and connect your repository to Vercel for automati
 <details>
 <summary><strong>Nginx</strong></summary>
 
-To deploy manually with Nginx:
+To deploy manually with Nginx, you can use either method.
 
-1.  **Build the project**:
+**Option 1: Build with Environment Variables**
+
+```bash
+# Export variables
+export VITE_CHAIN_ID=1
+export VITE_CHAIN_NAME="Ethereum"
+# ... other variables
+
+# Build
+npm run build
+```
+
+**Option 2: Build with `config.json`**
+
+1.  Ensure `config/config.json` exists and contains your network configuration.
+2.  Build the project:
     ```bash
     npm run build
     ```
 
-2.  **Configure Nginx**:
+**Then serve with Nginx:**
+
+1.  **Configure Nginx**:
     Use the provided `nginx.conf` as a template. Copy it to `/etc/nginx/sites-available/xylem` and symlink to `sites-enabled`.
 
-3.  **Copy files**:
+2.  **Copy files**:
     Copy the contents of the `dist` folder to your Nginx root (e.g., `/var/www/xylem`).
 
 </details>
