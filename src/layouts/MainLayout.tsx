@@ -11,7 +11,7 @@ export const MainLayout = () => {
   
   const { getActiveNetwork } = useNetworkStore();
   const activeNetwork = getActiveNetwork();
-  const { theme, setTheme } = useThemeStore();
+  const { theme } = useThemeStore();
 
   useEffect(() => {
     document.title = `Xylem - ${activeNetwork.name}`;
