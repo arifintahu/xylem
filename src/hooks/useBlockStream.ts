@@ -59,21 +59,20 @@ export const useBlockStream = () => {
           gasPricePromise
         ]);
 
-        // Add blocks - sort descending first (newest first)
-        const sortedBlocks = blocks.sort((a, b) => Number(b.number) - Number(a.number));
+        const sortedBlocks = blocks.sort((a, b) => Number(a.number) - Number(b.number));
 
-        for (const block of sortedBlocks) {
+        for (const block of blocks) {
           addBlock(block as unknown as Block);
           if (block.transactions.length > 0) {
             // For each block, add transactions. 
-            // Since we process newest block first, its transactions will be added first.
             addTransactions((block.transactions as unknown as Transaction[]).slice(0, 20));
           }
         }
 
-        // Set initial gas data
-        if (blocks[0] && blocks[0].baseFeePerGas) {
-          setGasData(gasPrice, 0n, blocks[0].baseFeePerGas);
+        // Set initial gas data using the newest block (last in sorted array)
+        const newestBlock = sortedBlocks[sortedBlocks.length - 1];
+        if (newestBlock && newestBlock.baseFeePerGas) {
+          setGasData(gasPrice, 0n, newestBlock.baseFeePerGas);
         }
 
         setIsConnected(true);
