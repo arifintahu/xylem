@@ -38,7 +38,7 @@ export const AddressDetails = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
            <div className="p-6 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-primary/20 dark:hover:border-primary/40 transition-colors group">
              <span className="text-gray-500 dark:text-gray-400 text-xs font-bold uppercase tracking-wider group-hover:text-primary transition-colors">Balance</span>
-             <div className="text-3xl font-bold text-gray-900 dark:text-white mt-2 tracking-tight">{parseFloat(formatEther(data.balance)).toFixed(6)} <span className="text-lg text-gray-500 dark:text-gray-400 font-normal">{activeNetwork.currency.symbol}</span></div>
+             <div className="text-3xl font-bold text-gray-900 dark:text-white mt-2 tracking-tight">{parseFloat(formatEther(data.balance)).toFixed(2)} <span className="text-lg text-gray-500 dark:text-gray-400 font-normal">{activeNetwork.currency.symbol}</span></div>
            </div>
            <div className="p-6 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 hover:border-primary/20 dark:hover:border-primary/40 transition-colors group">
              <span className="text-gray-500 dark:text-gray-400 text-xs font-bold uppercase tracking-wider group-hover:text-primary transition-colors">Transaction Count</span>
