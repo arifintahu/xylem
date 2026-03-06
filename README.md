@@ -183,6 +183,31 @@ npm run build
 
 </details>
 
+<details>
+<summary><strong>Caddy</strong></summary>
+
+Caddy is a modern web server that is easy to configure and use. A `Caddyfile` is provided for quick deployment.
+
+1.  **Build the project**:
+    Configure your environment variables or `config.json` as described above, then run the build command:
+    ```bash
+    npm run build
+    ```
+    This command generates a `dist` folder in the project root containing the production build.
+
+2.  **Serve with Caddy**:
+    Ensure you have [Caddy installed](https://caddyserver.com/docs/install).
+    
+    Make sure the `Caddyfile` and the `dist` folder are in the same directory.
+    
+    Run the following command in that directory:
+    ```bash
+    caddy run
+    ```
+    The application will be available at `http://localhost`.
+
+</details>
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

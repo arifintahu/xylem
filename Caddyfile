@@ -1,0 +1,17 @@
+:80
+
+root * ./dist
+file_server
+
+# SPA routing
+try_files {path} /index.html
+
+# Compression is enabled by default in Caddy
+encode gzip
+
+# Cache control for static assets
+@static {
+    file
+    path *.js *.css *.png *.jpg *.jpeg *.gif *.ico *.svg
+}
+header @static Cache-Control "public, max-age=2592000"
