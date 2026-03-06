@@ -19,9 +19,9 @@ export const useBlockStream = () => {
       name: activeNetwork.name,
       nativeCurrency: activeNetwork.currency,
       rpcUrls: {
-        default: { 
-           http: [activeNetwork.rpcUrl], 
-           webSocket: activeNetwork.wsUrl ? [activeNetwork.wsUrl] : undefined 
+        default: {
+          http: [activeNetwork.rpcUrl],
+          webSocket: activeNetwork.wsUrl ? [activeNetwork.wsUrl] : undefined
         },
       },
       blockExplorers: {
@@ -32,8 +32,8 @@ export const useBlockStream = () => {
     // Use WebSocket for subscription if available, else fallback to HTTP polling
     const client = createPublicClient({
       chain,
-      transport: activeNetwork.wsUrl && activeNetwork.wsUrl.startsWith('ws') 
-        ? webSocket(activeNetwork.wsUrl) 
+      transport: activeNetwork.wsUrl && activeNetwork.wsUrl.startsWith('ws')
+        ? webSocket(activeNetwork.wsUrl)
         : http(activeNetwork.rpcUrl),
     });
 
@@ -50,30 +50,30 @@ export const useBlockStream = () => {
         for (let i = 0; i < 10; i++) {
           promises.push(httpClient.getBlock({ blockNumber: blockNumber - BigInt(i), includeTransactions: true }));
         }
-        
+
         // Fetch gas price
         const gasPricePromise = httpClient.getGasPrice();
 
         const [blocks, gasPrice] = await Promise.all([
-            Promise.all(promises),
-            gasPricePromise
+          Promise.all(promises),
+          gasPricePromise
         ]);
 
         // Add blocks - sort descending first (newest first)
         const sortedBlocks = blocks.sort((a, b) => Number(b.number) - Number(a.number));
-        
+
         for (const block of sortedBlocks) {
-           addBlock(block as unknown as Block); 
-           if (block.transactions.length > 0) {
-             // For each block, add transactions. 
-             // Since we process newest block first, its transactions will be added first.
-             addTransactions((block.transactions as unknown as Transaction[]).slice(0, 20));
-           }
+          addBlock(block as unknown as Block);
+          if (block.transactions.length > 0) {
+            // For each block, add transactions. 
+            // Since we process newest block first, its transactions will be added first.
+            addTransactions((block.transactions as unknown as Transaction[]).slice(0, 20));
+          }
         }
-        
+
         // Set initial gas data
         if (blocks[0] && blocks[0].baseFeePerGas) {
-             setGasData(gasPrice, 0n, blocks[0].baseFeePerGas);
+          setGasData(gasPrice, 0n, blocks[0].baseFeePerGas);
         }
 
         setIsConnected(true);
@@ -91,17 +91,19 @@ export const useBlockStream = () => {
         setIsConnected(true);
         addBlock(block as unknown as Block);
         if (block.transactions.length > 0) {
-           addTransactions((block.transactions as unknown as Transaction[]).slice(0, 50));
+          addTransactions((block.transactions as unknown as Transaction[]).slice(0, 50));
         }
-        
+
         // Update gas price periodically or on every block?
         // client.getGasPrice is async.
         client.getGasPrice().then(price => {
-             setGasData(price, 0n, block.baseFeePerGas || 0n);
+          setGasData(price, 0n, block.baseFeePerGas || 0n);
         });
       },
       onError: (error) => {
-        console.error("Block stream error", error);
+        // Suppress verbose connection errors which are common with local nodes (CORS/Origin issues)
+        // The client will automatically attempt to reconnect or fallback to HTTP
+        console.warn("Block stream disconnected. Attempting to reconnect...", error);
         setIsConnected(false);
       }
     });
